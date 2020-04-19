@@ -143,7 +143,9 @@
                       Nama Penerima <span>Shayna</span>
                     </li>
                   </ul>
-                  <a href="success.html" class="proceed-btn">I ALREADY PAID</a>
+                  <router-link to="/success" class="proceed-btn"
+                    >I ALREADY PAID</router-link
+                  >
                 </div>
               </div>
             </div>
@@ -159,7 +161,7 @@
 import HeaderMitrabakti from "@/components/HeaderMitrabakti.vue";
 
 export default {
-  name: "cart",
+  name: "Cart",
   components: {
     HeaderMitrabakti,
   },
