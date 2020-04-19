@@ -114,6 +114,7 @@
       </div>
     </section>
     <!-- Product Shop Section End -->
+    <RelatedProductsMitrabakti />
     <FooterMitrabakti />
   </div>
 </template>
@@ -121,6 +122,7 @@
 <script>
 // @ is an alias to /src
 import HeaderMitrabakti from "@/components/HeaderMitrabakti.vue";
+import RelatedProductsMitrabakti from "@/components/RelatedProductsMitrabakti.vue";
 import FooterMitrabakti from "@/components/FooterMitrabakti.vue";
 // carousel
 import carousel from "vue-owl-carousel";
@@ -129,6 +131,7 @@ export default {
   name: "Product",
   components: {
     HeaderMitrabakti,
+    RelatedProductsMitrabakti,
     FooterMitrabakti,
     carousel,
   },
