@@ -5,6 +5,7 @@
     <HeroProductMitrabakti />
     <InstagramMitrabakti />
     <PartnerMitrabakti />
+    <FooterMitrabakti />
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import HeroMitrabakti from "@/components/HeroMitrabakti.vue";
 import HeroProductMitrabakti from "@/components/HeroProductMitrabakti.vue";
 import InstagramMitrabakti from "@/components/InstagramMitrabakti.vue";
 import PartnerMitrabakti from "@/components/PartnerMitrabakti.vue";
+import FooterMitrabakti from "@/components/FooterMitrabakti.vue";
 
 export default {
   name: "Home",
@@ -24,6 +26,7 @@ export default {
     HeroProductMitrabakti,
     InstagramMitrabakti,
     PartnerMitrabakti,
+    FooterMitrabakti,
   },
 };
 </script>
