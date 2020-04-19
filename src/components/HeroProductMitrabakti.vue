@@ -10,6 +10,7 @@
             :autoplay="true"
             :nav="false"
             :dots="false"
+            :loop="true"
           >
             <div class="product-item">
               <div class="pi-pic">

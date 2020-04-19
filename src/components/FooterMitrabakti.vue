@@ -2,7 +2,7 @@
   <!-- Footer Section Begin -->
   <footer class="footer-section">
     <div class="container">
-      <div class="row">
+      <div class="row text-left">
         <div class="col-lg-5">
           <div class="footer-left">
             <div class="footer-logo">
