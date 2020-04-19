@@ -3,7 +3,7 @@
     <HeaderMitrabakti />
     <!-- Hero Section Begin -->
     <section class="hero-section">
-      <carousel class="hero-items">
+      <carousel class="hero-items" :items="1">
         <div class="single-hero-items set-bg" data-setbg="img/hero-1.jpg">
           <div class="container">
             <div class="row">
