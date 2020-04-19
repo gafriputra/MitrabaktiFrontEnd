@@ -6,9 +6,9 @@
     <div class="breacrumb-section">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-12 text-left">
             <div class="breadcrumb-text product-more">
-              <a href="./home.html"><i class="fa fa-home"></i> Home</a>
+              <router-link to="/"><i class="fa fa-home"></i> Home</router-link>
               <span>Shopping Cart</span>
             </div>
           </div>
@@ -71,7 +71,7 @@
                   </table>
                 </div>
               </div>
-              <div class="col-lg-8">
+              <div class="col-lg-8 text-left">
                 <h4 class="mb-4">
                   Informasi Pembeli:
                 </h4>
@@ -123,7 +123,7 @@
           <div class="col-lg-4">
             <div class="row">
               <div class="col-lg-12">
-                <div class="proceed-checkout">
+                <div class="proceed-checkout text-left">
                   <ul>
                     <li class="subtotal">
                       ID Transaction <span>#SH12000</span>
