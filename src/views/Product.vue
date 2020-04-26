@@ -75,33 +75,12 @@
               <div class="col-lg-6">
                 <div class="product-details text-left">
                   <div class="pd-title">
-                    <span>oranges</span>
-                    <h3>Pure Pineapple</h3>
+                    <span>{{productDetails.type}}</span>
+                    <h3>{{productDetails.name}}</h3>
                   </div>
                   <div class="pd-desc">
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Corporis, error officia. Rem aperiam laborum voluptatum
-                      vel, pariatur modi hic provident eum iure natus quos non a
-                      sequi, id accusantium! Autem.
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                      Quam possimus quisquam animi, commodi, nihil voluptate
-                      nostrum neque architecto illo officiis doloremque et
-                      corrupti cupiditate voluptatibus error illum. Commodi
-                      expedita animi nulla aspernatur. Id asperiores blanditiis,
-                      omnis repudiandae iste inventore cum, quam sint molestiae
-                      accusamus voluptates ex tempora illum sit perspiciatis.
-                      Nostrum dolor tenetur amet, illo natus magni veniam quia
-                      sit nihil dolores. Commodi ratione distinctio harum
-                      voluptatum velit facilis voluptas animi non laudantium, id
-                      dolorem atque perferendis enim ducimus? A exercitationem
-                      recusandae aliquam quod. Itaque inventore obcaecati, unde
-                      quam impedit praesentium veritatis quis beatae ea atque
-                      perferendis voluptates velit architecto?
-                    </p>
-                    <h4>$495.00</h4>
+                    <p>{{productDetails.description}}</p>
+                    <h4>Rp. {{productDetails.price}}</h4>
                   </div>
                   <div class="quantity">
                     <router-link to="/cart" class="primary-btn pd-cart">Add To Cart</router-link>
@@ -126,6 +105,8 @@ import RelatedProductsMitrabakti from "@/components/RelatedProductsMitrabakti.vu
 import FooterMitrabakti from "@/components/FooterMitrabakti.vue";
 // carousel
 import carousel from "vue-owl-carousel";
+// axios
+import axios from "axios";
 
 export default {
   name: "Product",
@@ -137,22 +118,32 @@ export default {
   },
   data() {
     return {
-      gambar_utama: "img/mickey1.jpg",
-      thumbs: [
-        "img/mickey1.jpg",
-        "img/mickey2.jpg",
-        "img/mickey3.jpg",
-        "img/mickey4.jpg"
-      ],
-      slugProduct: this.$route.params.slug
+      gambar_utama: "",
+      thumbs: ["", "", "", ""],
+      productDetails: []
     };
   },
   methods: {
     changeImage(urlImage) {
       this.gambar_utama = urlImage;
-      // eslint-disable-text-line no-console;
-      console.log(this.slugProduct);
+    },
+    setDataPicture(data) {
+      // replace data product dengan API
+      this.productDetails = data;
+      //replace value gambar detail dengan dara dari API (galleries)
+      this.gambar_utama = data.galleries[0].image;
     }
+  },
+  mounted() {
+    axios
+      .get("http://127.0.0.1:8000/api/products", {
+        params: {
+          slug: this.$route.params.slug
+        }
+      })
+      .then(result => this.setDataPicture(result.data.data))
+      // eslint-disable-text-line no-console;
+      .catch(err => console.log(err));
   }
 };
 </script>
