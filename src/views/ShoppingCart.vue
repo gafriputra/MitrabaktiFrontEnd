@@ -72,6 +72,7 @@
                         id="namaLengkap"
                         aria-describedby="namaHelp"
                         placeholder="Masukan Nama"
+                        v-model="customerInfo.name"
                       />
                     </div>
                     <div class="form-group">
@@ -82,6 +83,7 @@
                         id="emailAddress"
                         aria-describedby="emailHelp"
                         placeholder="Masukan Email"
+                        v-model="customerInfo.email"
                       />
                     </div>
                     <div class="form-group">
@@ -92,11 +94,17 @@
                         id="noHP"
                         aria-describedby="noHPHelp"
                         placeholder="Masukan No. HP"
+                        v-model="customerInfo.phone"
                       />
                     </div>
                     <div class="form-group">
                       <label for="alamatLengkap">Alamat Lengkap</label>
-                      <textarea class="form-control" id="alamatLengkap" rows="3"></textarea>
+                      <textarea
+                        class="form-control"
+                        id="alamatLengkap"
+                        rows="3"
+                        v-model="customerInfo.address"
+                      ></textarea>
                     </div>
                   </form>
                 </div>
@@ -134,10 +142,10 @@
                     </li>
                     <li class="subtotal mt-3">
                       Nama Penerima
-                      <span>Shayna</span>
+                      <span>{{customerInfo.name}}</span>
                     </li>
                   </ul>
-                  <router-link to="/success" class="proceed-btn">I ALREADY PAID</router-link>
+                  <a @click="checkout()" href="#" class="proceed-btn">I ALREADY PAID</a>
                 </div>
               </div>
             </div>
@@ -151,6 +159,7 @@
 
 <script>
 import HeaderMitrabakti from "@/components/HeaderMitrabakti.vue";
+import Axios from "axios";
 
 export default {
   name: "Cart",
@@ -173,6 +182,25 @@ export default {
       this.keranjangUser.splice(listProduk, 1);
       const parsed = JSON.stringify(this.keranjangUser);
       localStorage.setItem("keranjangUser", parsed);
+    },
+    checkout() {
+      let productId = this.keranjangUser.map(function(product) {
+        return product.id;
+      });
+
+      let checkoutData = {
+        name: this.customerInfo.name,
+        email: this.customerInfo.email,
+        phone: this.customerInfo.phone,
+        address: this.customerInfo.address,
+        transaction_total: this.totalHargaPajak,
+        transaction_status: "PENDING",
+        transaction_details: productId
+      };
+      Axios.post("http://127.0.0.1:8000/api/checkout", checkoutData)
+        .then(() => this.$router.push("success"))
+        // eslint-disable-next-line no-console
+        .catch(err => console.log(err));
     }
   },
   mounted() {
