@@ -42,11 +42,11 @@
                           </td>
                           <td class="si-text">
                             <div class="product-selected">
-                              <p>Rp. {{keranjang.price}} x 1</p>
+                              <p>Rp. {{keranjang.price}} x {{keranjang.id}} - {{keranjang.index}}</p>
                               <h6>{{keranjang.name}}</h6>
                             </div>
                           </td>
-                          <td @click="removeItem(keranjangUser.index)" class="si-close">
+                          <td @click="removeItem(keranjangUser.id)" class="si-close">
                             <i class="ti-close"></i>
                           </td>
                         </tr>
@@ -63,8 +63,8 @@
                     <h5>$120.00</h5>
                   </div>
                   <div class="select-button">
-                    <a href="#" class="primary-btn view-card">VIEW CARD</a>
-                    <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
+                    <router-link to="/cart" class="primary-btn view-card">VIEW CARD</router-link>
+                    <router-link href="#" class="primary-btn checkout-btn">CHECK OUT</router-link>
                   </div>
                 </div>
               </li>
@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     removeItem(listProduk) {
-      this.keranjangUser.splice(listProduk);
+      this.keranjangUser.splice(listProduk, 1);
       const parsed = JSON.stringify(this.keranjangUser);
       localStorage.setItem("keranjangUser", parsed);
     }

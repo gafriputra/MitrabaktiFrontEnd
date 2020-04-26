@@ -8,7 +8,9 @@
         <div class="row">
           <div class="col-lg-12 text-left">
             <div class="breadcrumb-text product-more">
-              <router-link to="/"><i class="fa fa-home"></i> Home</router-link>
+              <router-link to="/">
+                <i class="fa fa-home"></i> Home
+              </router-link>
               <span>Shopping Cart</span>
             </div>
           </div>
@@ -34,47 +36,32 @@
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
+                    <tbody v-if="keranjangUser.length > 0">
+                      <tr v-for="keranjang in keranjangUser" :key="keranjang.id">
                         <td class="cart-pic first-row">
-                          <img src="img/cart-page/product-1.jpg" />
+                          <img class="img-cart" :src="keranjang.image" />
                         </td>
                         <td class="cart-title first-row text-center">
-                          <h5>Pure Pineapple</h5>
+                          <h5>{{keranjang.name}}</h5>
                         </td>
-                        <td class="p-price first-row">$60.00</td>
+                        <td class="p-price first-row">Rp. {{keranjang.price}}</td>
                         <td class="delete-item">
-                          <a href="#"
-                            ><i class="material-icons">
-                              close
-                            </i></a
-                          >
+                          <a href="#" @click="removeItem(keranjang.index)">
+                            <i class="material-icons">close</i>
+                          </a>
                         </td>
                       </tr>
+                    </tbody>
+                    <tbody v-else>
                       <tr>
-                        <td class="cart-pic first-row">
-                          <img src="img/cart-page/product-1.jpg" />
-                        </td>
-                        <td class="cart-title first-row text-center">
-                          <h5>Pure Pineapple</h5>
-                        </td>
-                        <td class="p-price first-row">$60.00</td>
-                        <td class="delete-item">
-                          <a href="#"
-                            ><i class="material-icons">
-                              close
-                            </i></a
-                          >
-                        </td>
+                        <td colspan="4">Keranjang Kosong</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
-              <div class="col-lg-8 text-left">
-                <h4 class="mb-4">
-                  Informasi Pembeli:
-                </h4>
+              <div class="col-lg-8 text-left" v-if="keranjangUser.length > 0">
+                <h4 class="mb-4">Informasi Pembeli:</h4>
                 <div class="user-checkout">
                   <form>
                     <div class="form-group">
@@ -109,43 +96,48 @@
                     </div>
                     <div class="form-group">
                       <label for="alamatLengkap">Alamat Lengkap</label>
-                      <textarea
-                        class="form-control"
-                        id="alamatLengkap"
-                        rows="3"
-                      ></textarea>
+                      <textarea class="form-control" id="alamatLengkap" rows="3"></textarea>
                     </div>
                   </form>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-4" v-if="keranjangUser.length > 0">
             <div class="row">
               <div class="col-lg-12">
                 <div class="proceed-checkout text-left">
                   <ul>
                     <li class="subtotal">
-                      ID Transaction <span>#SH12000</span>
-                    </li>
-                    <li class="subtotal mt-3">Subtotal <span>$240.00</span></li>
-                    <li class="subtotal mt-3">Pajak <span>10%</span></li>
-                    <li class="subtotal mt-3">
-                      Total Biaya <span>$440.00</span>
+                      ID Transaction
+                      <span>#SH12000</span>
                     </li>
                     <li class="subtotal mt-3">
-                      Bank Transfer <span>Mandiri</span>
+                      Subtotal
+                      <span>$240.00</span>
                     </li>
                     <li class="subtotal mt-3">
-                      No. Rekening <span>2208 1996 1403</span>
+                      Pajak
+                      <span>10%</span>
                     </li>
                     <li class="subtotal mt-3">
-                      Nama Penerima <span>Shayna</span>
+                      Total Biaya
+                      <span>$440.00</span>
+                    </li>
+                    <li class="subtotal mt-3">
+                      Bank Transfer
+                      <span>Mandiri</span>
+                    </li>
+                    <li class="subtotal mt-3">
+                      No. Rekening
+                      <span>2208 1996 1403</span>
+                    </li>
+                    <li class="subtotal mt-3">
+                      Nama Penerima
+                      <span>Shayna</span>
                     </li>
                   </ul>
-                  <router-link to="/success" class="proceed-btn"
-                    >I ALREADY PAID</router-link
-                  >
+                  <router-link to="/success" class="proceed-btn">I ALREADY PAID</router-link>
                 </div>
               </div>
             </div>
@@ -163,7 +155,34 @@ import HeaderMitrabakti from "@/components/HeaderMitrabakti.vue";
 export default {
   name: "Cart",
   components: {
-    HeaderMitrabakti,
+    HeaderMitrabakti
   },
+  data() {
+    return {
+      keranjangUser: []
+    };
+  },
+  methods: {
+    removeItem(listProduk) {
+      this.keranjangUser.splice(listProduk, 1);
+      const parsed = JSON.stringify(this.keranjangUser);
+      localStorage.setItem("keranjangUser", parsed);
+    }
+  },
+  mounted() {
+    if (localStorage.getItem("keranjangUser")) {
+      try {
+        this.keranjangUser = JSON.parse(localStorage.getItem("keranjangUser"));
+      } catch (e) {
+        localStorage.removeItem("keranjangUser");
+      }
+    }
+  }
 };
 </script>
+<style scoped>
+.img-cart {
+  width: 100px;
+  height: 100px;
+}
+</style>
