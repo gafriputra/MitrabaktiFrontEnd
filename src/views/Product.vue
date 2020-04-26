@@ -29,7 +29,7 @@
                 <div class="product-pic-zoom">
                   <img class="product-big-img" :src="gambar_utama" alt />
                 </div>
-                <div class="product-thumbs">
+                <div class="product-thumbs" v-if="productDetails.galleries.length > 0">
                   <carousel
                     class="product-thumbs-track ps-slider"
                     :items="3"
@@ -39,35 +39,13 @@
                     :loop="true"
                   >
                     <div
+                      v-for="image in productDetails.galleries"
+                      :key="image.id"
                       class="pt"
-                      @click="changeImage(thumbs[0])"
-                      :class="thumbs[0] == gambar_utama ? 'active' : false"
+                      @click="changeImage(image.image)"
+                      :class="image.image == gambar_utama ? 'active' : false"
                     >
-                      <img src="img/mickey1.jpg" alt />
-                    </div>
-
-                    <div
-                      class="pt"
-                      @click="changeImage(thumbs[1])"
-                      :class="thumbs[1] == gambar_utama ? 'active' : false"
-                    >
-                      <img src="img/mickey2.jpg" alt />
-                    </div>
-
-                    <div
-                      class="pt"
-                      @click="changeImage(thumbs[2])"
-                      :class="thumbs[2] == gambar_utama ? 'active' : false"
-                    >
-                      <img src="img/mickey3.jpg" alt />
-                    </div>
-
-                    <div
-                      class="pt"
-                      @click="changeImage(thumbs[3])"
-                      :class="thumbs[3] == gambar_utama ? 'active' : false"
-                    >
-                      <img src="img/mickey4.jpg" alt />
+                      <img :src="image.image" alt />
                     </div>
                   </carousel>
                 </div>
@@ -79,7 +57,7 @@
                     <h3>{{productDetails.name}}</h3>
                   </div>
                   <div class="pd-desc">
-                    <p>{{productDetails.description}}</p>
+                    <p v-html="productDetails.description"></p>
                     <h4>Rp. {{productDetails.price}}</h4>
                   </div>
                   <div class="quantity">
@@ -119,7 +97,6 @@ export default {
   data() {
     return {
       gambar_utama: "",
-      thumbs: ["", "", "", ""],
       productDetails: []
     };
   },
