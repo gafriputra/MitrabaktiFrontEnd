@@ -17,7 +17,7 @@
                 <img v-bind:src="itemProduct.galleries[0].image" alt />
                 <ul>
                   <li class="w-icon active">
-                    <a href="#">
+                    <a href="#" @click="saveKeranjang(itemProduct)">
                       <i class="icon_bag_alt"></i>
                     </a>
                   </li>
@@ -60,10 +60,32 @@ export default {
   },
   data() {
     return {
-      products: []
+      products: [],
+      keranjangUser: []
     };
   },
+  methods: {
+    saveKeranjang(productDetails) {
+      let memoriProduk = {
+        id: productDetails.id,
+        name: productDetails.name,
+        price: productDetails.price,
+        image: productDetails.galleries[0].image
+      };
+      this.keranjangUser.push(memoriProduk);
+      // dataKucing diserialisasi menjadi string JSON
+      const parsed = JSON.stringify(this.keranjangUser);
+      localStorage.setItem("keranjangUser", parsed);
+    }
+  },
   mounted() {
+    if (localStorage.getItem("keranjangUser")) {
+      try {
+        this.keranjangUser = JSON.parse(localStorage.getItem("keranjangUser"));
+      } catch (e) {
+        localStorage.removeItem("keranjangUser");
+      }
+    }
     axios
       .get("http://127.0.0.1:8000/api/products")
       .then(result => (this.products = result.data.data.data))
