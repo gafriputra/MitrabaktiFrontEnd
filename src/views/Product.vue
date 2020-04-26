@@ -61,7 +61,11 @@
                     <h4>Rp. {{productDetails.price}}</h4>
                   </div>
                   <div class="quantity">
-                    <router-link to="/cart" class="primary-btn pd-cart">Add To Cart</router-link>
+                    <a
+                      href="#"
+                      @click="saveKeranjang(productDetails)"
+                      class="primary-btn pd-cart"
+                    >Add To Cart</a>
                   </div>
                 </div>
               </div>
@@ -97,7 +101,8 @@ export default {
   data() {
     return {
       gambar_utama: "",
-      productDetails: []
+      productDetails: [],
+      keranjangUser: []
     };
   },
   methods: {
@@ -109,9 +114,28 @@ export default {
       this.productDetails = data;
       //replace value gambar detail dengan dara dari API (galleries)
       this.gambar_utama = data.galleries[0].image;
+    },
+    saveKeranjang(productDetails) {
+      let memoriProduk = {
+        id: productDetails.id,
+        name: productDetails.name,
+        price: productDetails.price,
+        image: productDetails.galleries[0].image
+      };
+      this.keranjangUser.push(memoriProduk);
+      // dataKucing diserialisasi menjadi string JSON
+      const parsed = JSON.stringify(this.keranjangUser);
+      localStorage.setItem("keranjangUser", parsed);
     }
   },
   mounted() {
+    if (localStorage.getItem("keranjangUser")) {
+      try {
+        this.keranjangUser = JSON.parse(localStorage.getItem("keranjangUser"));
+      } catch (e) {
+        localStorage.removeItem("keranjangUser");
+      }
+    }
     axios
       .get("http://127.0.0.1:8000/api/products", {
         params: {
