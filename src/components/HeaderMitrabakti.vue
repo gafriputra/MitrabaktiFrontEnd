@@ -60,7 +60,7 @@
                   </div>
                   <div class="select-total">
                     <span>total:</span>
-                    <h5>$120.00</h5>
+                    <h5>Rp {{totalHarga}}</h5>
                   </div>
                   <div class="select-button">
                     <router-link to="/cart" class="primary-btn view-card">VIEW CARD</router-link>
@@ -99,6 +99,13 @@ export default {
       } catch (e) {
         localStorage.removeItem("keranjangUser");
       }
+    }
+  },
+  computed: {
+    totalHarga() {
+      return this.keranjangUser.reduce(function(items, data) {
+        return items + data.price;
+      }, 0);
     }
   }
 };

@@ -114,7 +114,7 @@
                     </li>
                     <li class="subtotal mt-3">
                       Subtotal
-                      <span>$240.00</span>
+                      <span>Rp. {{totalHarga}}</span>
                     </li>
                     <li class="subtotal mt-3">
                       Pajak
@@ -122,7 +122,7 @@
                     </li>
                     <li class="subtotal mt-3">
                       Total Biaya
-                      <span>$440.00</span>
+                      <span>Rp. {{totalHargaPajak}}</span>
                     </li>
                     <li class="subtotal mt-3">
                       Bank Transfer
@@ -159,7 +159,13 @@ export default {
   },
   data() {
     return {
-      keranjangUser: []
+      keranjangUser: [],
+      customerInfo: {
+        name: "",
+        email: "",
+        phone: "",
+        address: ""
+      }
     };
   },
   methods: {
@@ -176,6 +182,17 @@ export default {
       } catch (e) {
         localStorage.removeItem("keranjangUser");
       }
+    }
+  },
+  computed: {
+    totalHarga() {
+      return this.keranjangUser.reduce(function(items, data) {
+        return items + data.price;
+      }, 0);
+    },
+    totalHargaPajak() {
+      let totalHargaPajak = this.totalHarga;
+      return totalHargaPajak + totalHargaPajak * 0.1;
     }
   }
 };
